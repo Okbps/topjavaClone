@@ -3,37 +3,44 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * GKislin
  * 11.01.2015.
  */
 public class Meal {
-    private Integer id;
+    private LocalDateTime dateTime;
 
-    private final LocalDateTime dateTime;
+    private String description;
 
-    private final String description;
+    private int calories;
 
-    private final int calories;
+    private final int id;
+
+    private final static AtomicInteger iCounter = new AtomicInteger();
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        this(null, dateTime, description, calories);
-    }
-
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
-        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+        this.id = iCounter.getAndIncrement();
     }
 
-    public Integer getId() {
-        return id;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public LocalDateTime getDateTime() {
@@ -54,19 +61,5 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    public boolean isNew() {
-        return id == null;
-    }
-
-    @Override
-    public String toString() {
-        return "Meal{" +
-                "id=" + id +
-                ", dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                ", calories=" + calories +
-                '}';
     }
 }
