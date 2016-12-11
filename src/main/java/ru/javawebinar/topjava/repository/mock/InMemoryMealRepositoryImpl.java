@@ -6,7 +6,6 @@ import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Repository
 public class InMemoryMealRepositoryImpl implements UserMealRepository{
-//    private List<Meal> repository = new CopyOnWriteArrayList<>();
     private Map<Integer, Meal>repository = new ConcurrentHashMap<>();
     private AtomicInteger count;
 

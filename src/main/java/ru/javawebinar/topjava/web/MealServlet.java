@@ -1,10 +1,15 @@
 package ru.javawebinar.topjava.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.MealServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,13 +18,16 @@ import java.time.LocalDateTime;
 /**
  * Created by Aspire on 06.12.2016.
  */
-public class MealServlet extends javax.servlet.http.HttpServlet{
-    private static MealService mealService;
+public class MealServlet extends HttpServlet {
+
+    @Autowired
+    private static MealServiceImpl mealService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        mealService = new MealServiceImpl();
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        mealService = context.getBean(MealServiceImpl.class);
     }
 
     @Override

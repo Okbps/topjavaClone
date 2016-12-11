@@ -1,40 +1,45 @@
 package ru.javawebinar.topjava.service;
 
-import ru.javawebinar.topjava.dao.MealSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.repository.UserMealRepository;
+import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Aspire on 08.12.2016.
  */
+@Service
 public class MealServiceImpl implements MealService{
 
+    @Autowired
+    private InMemoryMealRepositoryImpl repository;
+
     public void add(Meal meal){
-        MealSession.addMeal(meal);
+        repository.save(meal);
     }
 
     public Meal getById(int id){
-        List<Meal>mealsById = MealSession.getMeals()
-                .stream().filter(meal -> meal.getId()==id)
-                .collect(Collectors.toList());
-
-        if(mealsById.size()>0)
-            return mealsById.get(0);
-        else
-            return null;
+        return repository.get(id);
     }
 
     public void remove(int id){
-        MealSession.removeMeal(getById(id));
+        repository.delete(id);
     }
 
     @Override
     public List<MealWithExceed> getMealsWithExceed() {
-        return MealsUtil.getFilteredWithExceeded(MealSession.getMeals(), null, null, 2000);
+        return MealsUtil.getFilteredWithExceeded(
+                new ArrayList<>(repository.getAll()),
+                null,
+                null,
+                2000
+        );
     }
 
 }
