@@ -18,6 +18,8 @@ public class User extends NamedEntity{
 
     private Set<Role> authorities;
 
+    private Integer id;
+
     public User() {
     }
 
@@ -26,6 +28,18 @@ public class User extends NamedEntity{
         this.password = password;
         this.email = email;
         this.authorities = EnumSet.of(role, roles);
+    }
+
+    public boolean isNew(){
+        return id==null;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPassword() {

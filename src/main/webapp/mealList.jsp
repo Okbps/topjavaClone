@@ -16,6 +16,7 @@
 </head>
 <body>
     <h2>Meal List Body</h2>
+
     <c:if test="${!empty mealList}">
         <table>
             <tr>

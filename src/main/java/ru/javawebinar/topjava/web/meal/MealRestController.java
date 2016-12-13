@@ -3,8 +3,10 @@ package ru.javawebinar.topjava.web.meal;
 import ru.javawebinar.topjava.service.MealService;
 
 /**
- * Created by Aspire on 10.12.2016.
+ * GKislin
+ * 06.03.2015.
  */
-public class UserMealRestController {
+public class MealRestController {
     private MealService service;
+
 }

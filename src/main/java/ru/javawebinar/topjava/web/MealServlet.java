@@ -5,8 +5,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.MealServiceImpl;
+import ru.javawebinar.topjava.service.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,14 +22,22 @@ import java.time.LocalDateTime;
  */
 public class MealServlet extends HttpServlet {
 
-    @Autowired
-    private static MealServiceImpl mealService;
+    private MealServiceImpl mealService;
+
+//    private ConfigurableApplicationContext context;
 
     @Override
     public void init() throws ServletException {
         super.init();
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-app.xml");
         mealService = context.getBean(MealServiceImpl.class);
+        context.close();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+//        context.close();
     }
 
     @Override
@@ -39,7 +49,7 @@ public class MealServlet extends HttpServlet {
             req.getRequestDispatcher("/mealEdit.jsp").forward(req, resp);
         }
         else if(req.getParameter("remove")!=null){
-            mealService.remove(Integer.parseInt(req.getParameter("remove")));
+            mealService.remove(Integer.parseInt(req.getParameter("remove")), 0);
             req.setAttribute("mealList", mealService.getMealsWithExceed());
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
         }
@@ -57,13 +67,18 @@ public class MealServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
 
+        if(req.getParameter("user")!=null){
+        }
+
+
         if(req.getParameter("mealId").isEmpty()){
             Meal meal = new Meal(
                     LocalDateTime.parse(req.getParameter("dateTime")),
                     req.getParameter("description"),
-                    Integer.parseInt(req.getParameter("calories"))
+                    Integer.parseInt(req.getParameter("calories")),
+                    0
             );
-            mealService.add(meal);
+            mealService.save(meal, 0);
         }
         else {
             Meal meal = mealService.getById(Integer.parseInt(req.getParameter("mealId")));
@@ -75,4 +90,5 @@ public class MealServlet extends HttpServlet {
         req.setAttribute("mealList", mealService.getMealsWithExceed());
         req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
     }
+
 }
