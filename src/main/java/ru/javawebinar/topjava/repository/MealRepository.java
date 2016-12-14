@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Aspire on 10.12.2016.
  */
 public interface MealRepository {
-    Meal save(Meal meal, Integer userId);
+    Meal save(Meal meal);
 
-    void delete(int id, Integer userId);
+    void delete(int id);
 
     Meal get(int id);
 

@@ -17,13 +17,19 @@ public class MealWithExceed extends BaseEntity{
 
     private final int id;
 
+    private final Integer userId;
 
-    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed, int id) {
+    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed, int id, int userId) {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
         this.exceed = exceed;
         this.id = id;
+        this.userId = userId;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public void setExceed(boolean exceed) {

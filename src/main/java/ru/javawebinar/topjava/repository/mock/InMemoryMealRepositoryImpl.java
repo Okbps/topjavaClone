@@ -24,14 +24,11 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     {
         count = new AtomicInteger(0);
-        MealsUtil.getMeals().forEach(meal -> save(meal, 0));
+        MealsUtil.getMeals().forEach(meal -> save(meal));
     }
 
     @Override
-    public Meal save(Meal meal, Integer userId) {
-        if(meal.getUserId()!=userId)
-            return null;
-
+    public Meal save(Meal meal) {
         if(meal.isNew())
             meal.setId(count.getAndIncrement());
 
@@ -39,11 +36,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void delete(int id, Integer userId) {
-        Meal meal = repository.get(id);
-
-        if(meal!=null && meal.getUserId()==userId)
-            repository.remove(id);
+    public void delete(int id) {
+        repository.remove(id);
     }
 
     @Override
