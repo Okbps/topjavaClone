@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * GKislin
  * 11.01.2015.
  */
-public class MealWithExceed {
+public class MealWithExceed extends BaseEntity{
     private LocalDateTime dateTime;
 
     private String description;
@@ -17,13 +17,19 @@ public class MealWithExceed {
 
     private final int id;
 
+    private final Integer userId;
 
-    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed, int id) {
+    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed, int id, int userId) {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
         this.exceed = exceed;
         this.id = id;
+        this.userId = userId;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public void setExceed(boolean exceed) {
@@ -42,7 +48,7 @@ public class MealWithExceed {
         this.calories = calories;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 

@@ -1,0 +1,9 @@
+To do:
+
+1. move MealServiceImpl from MealServlet to MealRestController
+
+2. make bean AuthorizedUser
+
+3. set AuthorizedUser's id from home page
+
+4. filter Meal list by date & time

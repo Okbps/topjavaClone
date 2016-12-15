@@ -16,6 +16,17 @@
 </head>
 <body>
     <h2>Meal List Body</h2>
+
+    <form method="post" action='meals' name="filter" accept-charset="utf-8">
+        Date start: <input type="date" name="dateStart"/> end: <input type="date" name="dateEnd"/>
+        <br>
+        Time start: <input type="time" name="timeStart"/> end: <input type="time" name="timeEnd"/>
+        <br>
+        <button type="submit" value="filter">Filter</button>
+    </form>
+
+    <br>
+
     <c:if test="${!empty mealList}">
         <table>
             <tr>
@@ -24,6 +35,7 @@
                 <th width="120">Calories</th>
                 <%--<th width="60">Exceed</th>--%>
                 <th width="120">Date and Time</th>
+                <th width="80">User ID</th>
                 <th width="60">Edit</th>
                 <th width="60">Delete</th>
             </tr>
@@ -35,6 +47,7 @@
                     <td>${meal.calories}</td>
                     <%--<td>${meal.exceed}</td>--%>
                     <td>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm:ss')}</td>
+                    <td>${meal.userId}</td>
                     <%--<td><fmt:formatDate value="${meal.dateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>--%>
                     <td><a href="<c:url value='?edit=${meal.id}' />" >Edit</a></td>
                     <td><a href="<c:url value='?remove=${meal.id}' />" >Delete</a></td>

@@ -13,7 +13,7 @@ public interface UserService {
 
     public void delete(int id) throws NotFoundException;
 
-    public User getUser(int id) throws NotFoundException;
+    public User get(int id) throws NotFoundException;
 
     public User getByEmail(String email) throws NotFoundException;
 

@@ -1,33 +1,40 @@
 package ru.javawebinar.topjava.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
-import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.MealService;
-import ru.javawebinar.topjava.service.MealServiceImpl;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 /**
  * Created by Aspire on 06.12.2016.
  */
 public class MealServlet extends HttpServlet {
 
-    @Autowired
-    private static MealServiceImpl mealService;
+    private MealRestController controller;
+    private String  sDateStart = null,
+                    sDateEnd = null,
+                    sTimeStart = null,
+                    sTimeEnd = null;
+
+//    private ConfigurableApplicationContext context;
 
     @Override
     public void init() throws ServletException {
         super.init();
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-        mealService = context.getBean(MealServiceImpl.class);
+        controller = context.getBean(MealRestController.class);
+        context.close();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+//        context.close();
     }
 
     @Override
@@ -35,19 +42,19 @@ public class MealServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
 
         if(req.getParameter("edit")!=null) {
-            req.setAttribute("meal", mealService.getById(Integer.parseInt(req.getParameter("edit"))));
+            req.setAttribute("meal", controller.getById(req.getParameter("edit")));
             req.getRequestDispatcher("/mealEdit.jsp").forward(req, resp);
         }
         else if(req.getParameter("remove")!=null){
-            mealService.remove(Integer.parseInt(req.getParameter("remove")));
-            req.setAttribute("mealList", mealService.getMealsWithExceed());
+            controller.remove(req.getParameter("remove"));
+            req.setAttribute("mealList", controller.getListWithExceed(sDateStart, sDateEnd, sTimeStart, sTimeEnd));
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
         }
         else if(req.getParameter("new")!=null){
             req.getRequestDispatcher("/mealEdit.jsp").forward(req, resp);
         }
         else {
-            req.setAttribute("mealList", mealService.getMealsWithExceed());
+            req.setAttribute("mealList", controller.getListWithExceed(sDateStart, sDateEnd, sTimeStart, sTimeEnd));
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
         }
     }
@@ -57,22 +64,30 @@ public class MealServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
 
-        if(req.getParameter("mealId").isEmpty()){
-            Meal meal = new Meal(
-                    LocalDateTime.parse(req.getParameter("dateTime")),
+        if(req.getParameter("dateStart")!=null){
+            sDateStart = req.getParameter("dateStart");
+            sDateEnd = req.getParameter("dateEnd");
+            sTimeStart = req.getParameter("timeStart");
+            sTimeEnd = req.getParameter("timeEnd");
+        }
+        else if(req.getParameter("mealId").isEmpty()){
+            controller.saveMeal(
+                    req.getParameter("dateTime"),
                     req.getParameter("description"),
-                    Integer.parseInt(req.getParameter("calories"))
+                    req.getParameter("calories")
             );
-            mealService.add(meal);
         }
         else {
-            Meal meal = mealService.getById(Integer.parseInt(req.getParameter("mealId")));
-            meal.setDescription(req.getParameter("description"));
-            meal.setCalories(Integer.parseInt(req.getParameter("calories")));
-            meal.setDateTime(LocalDateTime.parse(req.getParameter("dateTime")));
+            controller.updateMeal(
+                    req.getParameter("mealId"),
+                    req.getParameter("dateTime"),
+                    req.getParameter("description"),
+                    req.getParameter("calories")
+            );
         }
 
-        req.setAttribute("mealList", mealService.getMealsWithExceed());
+        req.setAttribute("mealList", controller.getListWithExceed(sDateStart, sDateEnd, sTimeStart, sTimeEnd));
         req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
     }
+
 }

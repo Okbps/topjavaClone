@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by Aspire on 10.12.2016.
  */
-public interface UserMealRepository {
+public interface MealRepository {
     Meal save(Meal meal);
 
     void delete(int id);
 
     Meal get(int id);
 
-    Collection<Meal> getAll();
+    Collection<Meal> getAll(Integer userId);
 }

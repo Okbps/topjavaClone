@@ -17,12 +17,6 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository repository;
 
-/*
-    public void setRepository(UserRepository repository) {
-        this.repository = repository;
-    }
-*/
-
     @Override
     public User save(User user) {
         return null;
@@ -34,7 +28,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUser(int id) throws NotFoundException {
+    public User get(int id) throws NotFoundException {
         return null;
     }
 
