@@ -47,13 +47,14 @@ public class MealServiceImpl implements MealService{
 
     @Override
     public List<MealWithExceed> getMealsWithExceed(
+            Integer userId,
             LocalDate starDate,
             LocalDate endDate,
             LocalTime startTime,
             LocalTime endTime
     ) {
         return MealsUtil.getFilteredWithExceeded(
-                new ArrayList<>(repository.getAll(null)),
+                new ArrayList<>(repository.getAll(userId)),
                 starDate,
                 endDate,
                 startTime,

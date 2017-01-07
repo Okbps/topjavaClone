@@ -50,15 +50,11 @@ public class InMemoryUserRepositoryImpl implements UserRepository{
     public User getByEmail(String email) {
         Collection<User>users = getAll();
 
-        List<User> usersByEmail = users
-                .stream()
-                .filter(user -> user.getEmail().equals(email))
-                .collect(Collectors.toList());
-
-        if(!usersByEmail.isEmpty())
-            return usersByEmail.get(0);
-        else
-            return null;
+        return users
+            .stream()
+            .filter(user -> user.getEmail().equals(email))
+            .findFirst()
+            .orElse(null);
     }
 
     @Override

@@ -40,6 +40,7 @@ public class MealRestController {
 
     ){
         return mealService.getMealsWithExceed(
+                user.id(),
                 sDateStart == null || sDateStart.isEmpty()  ? null : LocalDate.parse(sDateStart),
                 sDateEnd == null || sDateEnd.isEmpty()      ? null : LocalDate.parse(sDateEnd),
                 sTimeStart == null || sTimeStart.isEmpty()  ? null : LocalTime.parse(sTimeStart),

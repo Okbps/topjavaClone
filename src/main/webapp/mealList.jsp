@@ -20,12 +20,12 @@
     <form method="post" action='meals' name="filter" accept-charset="utf-8">
         Date start: <input type="date" name="dateStart"/> end: <input type="date" name="dateEnd"/>
         <br>
+        <br>
         Time start: <input type="time" name="timeStart"/> end: <input type="time" name="timeEnd"/>
+        <br>
         <br>
         <button type="submit" value="filter">Filter</button>
     </form>
-
-    <br>
 
     <c:if test="${!empty mealList}">
         <table>
@@ -56,8 +56,7 @@
         </table>
     </c:if>
 
-<br/>
-<br/>
 <h3><a href="<c:url value='?new' />" >Add Meal</a></h3>
+<h3><a href="/" >Home</a></h3>
 </body>
 </html>
