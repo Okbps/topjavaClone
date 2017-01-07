@@ -18,6 +18,7 @@ public interface MealService {
     public void remove(int id, int userId);
 
     public List<MealWithExceed> getMealsWithExceed(
+            Integer userId,
             LocalDate starDate,
             LocalDate endDate,
             LocalTime startTime,
