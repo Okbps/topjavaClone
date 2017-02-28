@@ -1,24 +1,37 @@
 package ru.javawebinar.topjava.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
 /**
- * Created by Aspire on 10.12.2016.
+ * User: gkislin
+ * Date: 22.08.2014
  */
-public class NamedEntity {
+@MappedSuperclass
+public class NamedEntity extends BaseEntity {
+
+    @NotBlank
+    @Column(name = "name", nullable = false)
+    @SafeHtml
     protected String name;
 
-    public String getName() {
-        return name;
+    public NamedEntity() {
+    }
+
+    protected NamedEntity(Integer id, String name) {
+        super(id);
+        this.name = name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public NamedEntity() {
-    }
-
-    protected NamedEntity(String name) {
-        this.name = name;
+    public String getName() {
+        return this.name;
     }
 
     @Override
